@@ -1,8 +1,8 @@
 {% set name = "python-engineio" %}
-{% set version = "3.2.0" %}
+{% set version = "3.3.2" %}
 {% set bundle = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash = "26069239fa6bcba598a0ec782b3544bd908d909463ffe35339fba689c4d6f9b0" %}
+{% set hash = "2ea0e60734c595effc377174abca1afbb959ba4db8911f544988b1fefbb5b4f4" %}
 
 package:
   name: {{ name|lower }}
