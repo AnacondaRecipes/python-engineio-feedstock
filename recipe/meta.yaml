@@ -1,8 +1,8 @@
 {% set name = "python-engineio" %}
-{% set version = "3.4.3" %}
+{% set version = "3.5.1" %}
 {% set bundle = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash = "efe95e61f77be5392626935e5d4b361889abd7c66d4c07c5b29ddaefff628fed" %}
+{% set hash = "a89d2cff7f9b447d37c450c2666101d97043b4b22524bf4efaafcb9784c9f7f4" %}
 
 package:
   name: {{ name|lower }}
@@ -16,7 +16,7 @@ source:
 build:
   number: 0
   noarch: python
-  script: python -m pip install --no-deps --ignore-installed .
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   host:
