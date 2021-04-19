@@ -1,31 +1,26 @@
 {% set name = "python-engineio" %}
-{% set version = "4.0.1" %}
-{% set bundle = "tar.gz" %}
-{% set hash_type = "sha256" %}
-{% set hash = "bb575c1a3512b4b5d4706f3071d5cc36e592459e99a47d9a4b7faabeba941377" %}
+{% set version = "4.1.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.{{ bundle }}
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ bundle }}
-  {{ hash_type }}: {{ hash }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 21e1bcc62f5573a4bb1c805e69915c5a4c5aa953005dde6c2f707c24554c1020
 
 build:
   number: 0
   noarch: python
-  script: {{ PYTHON }} -m pip install --no-deps --ignore-installed .
+  script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
-    - python
+    - python >=3.5
     - pip
 
   run:
-    - python
-    - six >=1.9.0
+    - python >=3.5
 
 test:
   imports:
@@ -45,7 +40,7 @@ about:
   license_file: LICENSE
   license: MIT
   license_family: MIT
-  summary: 'Engine.IO server'
+  summary: Engine.IO server
   doc_url: https://python-engineio.readthedocs.io
   dev_url: https://github.com/miguelgrinberg/python-engineio/
 
@@ -53,3 +48,4 @@ extra:
   recipe-maintainers:
     - pmlandwehr
     - ReimarBauer
+    - synapticarbors
