@@ -1,5 +1,5 @@
 {% set name = "python-engineio" %}
-{% set version = "4.1.0" %}
+{% set version = "4.8.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,20 +7,22 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 21e1bcc62f5573a4bb1c805e69915c5a4c5aa953005dde6c2f707c24554c1020
+  sha256: f8609e3afdda318fdc336b4ba2de8dd397bb8f9b8a1b43e56c27330e32c2e34c
 
 build:
   number: 0
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python >=3.5
+    - python >=3.6
     - pip
+    - wheel
 
   run:
-    - python >=3.5
+    - python >=3.6
+    - simple-websocket >=0.10.0
 
 test:
   imports:
@@ -34,6 +36,10 @@ test:
     - engineio.payload
     - engineio.server
     - engineio.socket
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/miguelgrinberg/python-engineio/
@@ -45,7 +51,12 @@ about:
   dev_url: https://github.com/miguelgrinberg/python-engineio/
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for chainlit
   recipe-maintainers:
-    - pmlandwehr
+    - ianaobi
+    - bkreider
+  recipe-maintainers:
     - ReimarBauer
     - synapticarbors
