@@ -1,48 +1,72 @@
 {% set name = "python-engineio" %}
-{% set version = "4.1.0" %}
+{% set version = "4.12.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 21e1bcc62f5573a4bb1c805e69915c5a4c5aa953005dde6c2f707c24554c1020
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: e7e712ffe1be1f6a05ee5f951e72d434854a32fcfc7f6e4d9d3cae24ec70defa
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<36]
 
 requirements:
   host:
-    - python >=3.5
+    - python
     - pip
-
+    - setuptools >=61.2
+    - wheel
   run:
-    - python >=3.5
+    - python
+    - simple-websocket >=0.10.0
+  run_constrained:
+    - requests >=2.21.0
+    - websocket-client >=0.54.0
+    - aiohttp >=3.4
+
+# ModuleNotFoundError: No module named 'websocket'
+{% set ignore_tests = "--ignore=tests/common/test_client.py" %}
+
+# AssertionError: assert [b'Not Found'] == [b'<html>file</html>\n']
+{% set tests_to_skip = "test_static_files" %}
 
 test:
+  source_files:
+    - tests
   imports:
     - engineio
-    # - engineio.async_eventlet
-    # - engineio.async_gevent
-    # - engineio.async_gevent_uwsgi
-    # - engineio.async_threading
     - engineio.middleware
     - engineio.packet
     - engineio.payload
     - engineio.server
     - engineio.socket
+    - engineio.async_drivers
+  requires:
+    - pip
+    - pytest
+    - aiohttp
+    - tornado
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v {{ ignore_tests }} -k "not {{ tests_to_skip }}" tests
 
 about:
-  home: https://github.com/miguelgrinberg/python-engineio/
+  home: https://github.com/miguelgrinberg/python-engineio
   license_file: LICENSE
   license: MIT
   license_family: MIT
   summary: Engine.IO server
+
+  summary: Adds caching support to your Flask application
+  description: A fork of the Flask-cache extension which adds easy cache support to Flask.
+
   doc_url: https://python-engineio.readthedocs.io
-  dev_url: https://github.com/miguelgrinberg/python-engineio/
+  dev_url: https://github.com/miguelgrinberg/python-engineio
 
 extra:
   recipe-maintainers:
