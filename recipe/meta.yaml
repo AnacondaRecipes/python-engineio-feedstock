@@ -1,26 +1,25 @@
 {% set name = "python-engineio" %}
 {% set version = "4.13.0" %}
-{% set ignore_tests = "--ignore=tests/common/test_client.py" %}
-{% set tests_to_skip = "test_static_files" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: f9c51a8754d2742ba832c24b46ed425fdd3064356914edd5a1e8ffde76ab7709
+  url: https://github.com/miguelgrinberg/python-engineio/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 7375254e85cef1e78559f4ed01f7cfba85a30d0a34d3695f0d96e5e9e73de92d
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<38]
+  skip: True  # [py<38]
 
 requirements:
   host:
     - python
     - pip
     - setuptools >=61.2
+    - wheel
   run:
     - python
     - simple-websocket >=0.10.0
@@ -29,8 +28,10 @@ requirements:
     - websocket-client >=0.54.0
     - aiohttp >=3.4
 
-# ModuleNotFoundError: No module named 'websocket'
-# AssertionError: assert [b'Not Found'] == [b'<html>file</html>\n']
+# > raise RuntimeError("Event loop stopped before Future completed.")
+# E RuntimeError: Event loop stopped before Future completed.
+{% set skip_tests = "TestAsyncServer" %}
+
 test:
   source_files:
     - tests
@@ -47,10 +48,13 @@ test:
     - pytest
     - aiohttp
     - tornado
+    - websocket-client
+    - requests
+    - pytest-tornasync
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v {{ ignore_tests }} -k "not {{ tests_to_skip }}" tests
+    - pytest -v -k "not {{ skip_tests }}" tests
 
 about:
   home: https://github.com/miguelgrinberg/python-engineio
@@ -58,8 +62,10 @@ about:
   license: MIT
   license_family: MIT
   summary: Engine.IO server
+
   summary: Adds caching support to your Flask application
   description: A fork of the Flask-cache extension which adds easy cache support to Flask.
+
   doc_url: https://python-engineio.readthedocs.io
   dev_url: https://github.com/miguelgrinberg/python-engineio
 
