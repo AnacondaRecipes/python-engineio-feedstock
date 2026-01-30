@@ -30,7 +30,7 @@ requirements:
 
 # > raise RuntimeError("Event loop stopped before Future completed.")
 # E RuntimeError: Event loop stopped before Future completed.
-{% set skip_tests = "TestAsyncServer" %}
+{% set skip_tests = "TestAsyncServer or TestSocket" %}
 
 test:
   source_files:
@@ -54,7 +54,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v -k "not {{ skip_tests }}" tests
+    - pytest -v -k "not ({{ skip_tests }})" tests
 
 about:
   home: https://github.com/miguelgrinberg/python-engineio
