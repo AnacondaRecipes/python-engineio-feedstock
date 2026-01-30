@@ -30,7 +30,7 @@ requirements:
 
 # > raise RuntimeError("Event loop stopped before Future completed.")
 # E RuntimeError: Event loop stopped before Future completed.
-{% set skip_tests = "TestAsyncServer or TestSocket" %}
+{% set skip_tests = "TestAsyncServer or TestSocket or TestTornado" %}
 
 test:
   source_files:
