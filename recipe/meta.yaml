@@ -61,11 +61,8 @@ about:
   license_file: LICENSE
   license: MIT
   license_family: MIT
-  summary: Engine.IO server
-
   summary: Adds caching support to your Flask application
   description: A fork of the Flask-cache extension which adds easy cache support to Flask.
-
   doc_url: https://python-engineio.readthedocs.io
   dev_url: https://github.com/miguelgrinberg/python-engineio
 
