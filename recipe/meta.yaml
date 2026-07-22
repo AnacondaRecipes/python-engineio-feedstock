@@ -1,5 +1,5 @@
 {% set name = "python-engineio" %}
-{% set version = "4.13.0" %}
+{% set version = "4.13.3" %}
 
 package:
   name: {{ name }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/miguelgrinberg/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 7375254e85cef1e78559f4ed01f7cfba85a30d0a34d3695f0d96e5e9e73de92d
+  sha256: 5272f492c322982c34badcf7fb4d5caeb388fe012fc587c5ccf669edce92b297
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [py<38]
 
@@ -28,7 +28,7 @@ requirements:
     - requests >=2.21.0
     - websocket-client >=0.54.0
     # asyncio_client
-    - aiohttp >=3.4
+    - aiohttp >=3.11
 
 # > raise RuntimeError("Event loop stopped before Future completed.")
 # E RuntimeError: Event loop stopped before Future completed.
