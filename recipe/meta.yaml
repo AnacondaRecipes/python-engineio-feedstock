@@ -1,5 +1,5 @@
 {% set name = "python-engineio" %}
-{% set version = "4.15.0" %}
+{% set version = "4.15.1" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/miguelgrinberg/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 2cfbc4aadc82a8de73fd166b5243237a7859b6cee1866a885a1a4d6a9350d599
+  sha256: 7d0b84048314e310615cb2e0f1f9fe87f207b9aafa9b0176c74014409769417a
 
 build:
   number: 0
